@@ -1,0 +1,98 @@
+USE [Datawarehouse]
+GO
+
+CREATE TABLE [dbo].ERPIntegration (
+    companyId varchar(255) NOT NULL,
+    endpoint varchar(255) NOT NULL,
+    correlationId varchar(255) NOT NULL,
+    deploy int NOT NULL,
+    hash varchar(255)
+)
+GO
+
+ALTER TABLE [dbo].ERPIntegration
+ADD PRIMARY KEY (companyId, endpoint, correlationId, deploy)
+GO
+
+CREATE TABLE [dbo].[TimeDim](
+	[Id] [date] NOT NULL,
+	[Year] [char](4) NOT NULL,
+	[Quarter] [varchar](2) NOT NULL,
+	[Month_Num] [varchar](2) NOT NULL,
+	[Month] [varchar](20) NOT NULL,
+	[Week] [varchar](2) NOT NULL,
+	[Day] [varchar](2) NOT NULL,
+	[Month_CA] [varchar](20) NULL,
+	[Month_ES] [varchar](20) NULL,
+	CONSTRAINT [PK_TimeDim] PRIMARY KEY CLUSTERED 
+	(
+		[Id] ASC
+	)
+)
+GO
+
+CREATE TABLE [dbo].[CompanyDim](
+	[id] [varchar](255) NOT NULL,
+	[code] [varchar](255) NOT NULL,
+	[legalName] [varchar](255) NOT NULL,
+	[tradeName] [varchar](255) NOT NULL,
+	[taxId] [varchar](255) NOT NULL,
+	CONSTRAINT [PK_CompanyDim] PRIMARY KEY
+	(
+		[Id] ASC
+	)
+)
+GO
+
+CREATE TABLE [dbo].[WorkerDim](
+	[id] [varchar](255) NOT NULL,
+	[code] [varchar](255) NOT NULL,
+	[name] [varchar](255) NOT NULL,
+	CONSTRAINT [PK_WorkerDim] PRIMARY KEY
+	(
+		[Id] ASC
+	)
+)
+GO
+
+CREATE TABLE [dbo].[DepartmentDim](
+	[id] [varchar](255) NOT NULL,
+	[name] [varchar](255) NOT NULL,
+	CONSTRAINT [PK_DepartmentDim] PRIMARY KEY
+	(
+		[Id] ASC
+	)
+)
+GO
+
+CREATE TABLE [dbo].[WorkforceDim](
+	[id] [varchar](255) NOT NULL,
+	[name] [varchar](255) NOT NULL,
+	CONSTRAINT [PK_WorkforceDim] PRIMARY KEY
+	(
+		[Id] ASC
+	)
+)
+GO
+
+CREATE TABLE [dbo].[WorkerDailyCostsFact](
+	[id] [varchar](255) NOT NULL,
+	[date] [date] NOT NULL,
+	[workerId] [varchar](255) NOT NULL,
+	[departmentId] [varchar](255) NOT NULL,
+	[workforceId] [varchar](255) NOT NULL,
+	[companyId] [varchar](255) NOT NULL,
+	[hours] [numeric](10, 2) NOT NULL,
+	[productiveHours] [numeric](10, 2) NOT NULL,
+	[totalCost] [numeric](10, 2) NOT NULL,
+	CONSTRAINT [PK_WorkerDailyCostsFact] PRIMARY KEY
+	(
+		[Id] ASC
+	),
+        CONSTRAINT FK_WorkerDailyCostsFact_date FOREIGN KEY (date) REFERENCES [dbo].[TimeDim](Id),
+        CONSTRAINT FK_WorkerDailyCostsFact_workerId FOREIGN KEY (workerId) REFERENCES [dbo].[WorkerDim](Id),
+        CONSTRAINT FK_WorkerDailyCostsFact_departmentId FOREIGN KEY (departmentId) REFERENCES [dbo].[DepartmentDim](Id),
+        CONSTRAINT FK_WorkerDailyCostsFact_workforceId FOREIGN KEY (workforceId) REFERENCES [dbo].[WorkforceDim](Id),
+        CONSTRAINT FK_WorkerDailyCostsFact_companyId FOREIGN KEY (companyId) REFERENCES [dbo].[CompanyDim](Id)
+)
+GO
