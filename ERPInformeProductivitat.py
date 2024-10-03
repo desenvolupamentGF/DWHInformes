@@ -302,8 +302,8 @@ def get_departmentsDim(dbDWH, myCursorDWH, now, dbOrigin, myCursor):
                 myCursorDWH.execute(sql, val)
             else:
                 if str(old_data_hash) != str(data_hash):
-                    sql = "UPDATE Datawarehouse.dbo.DepartmentDim SET code = %s, name = %s WHERE id = %s "
-                    val = (str(department['code']), str(department['name']), str(department['id']))
+                    sql = "UPDATE Datawarehouse.dbo.DepartmentDim SET id = %s, name = %s WHERE id = %s "
+                    val = (str(department['id']), str(department['name']), str(department['id']))
                     myCursorDWH.execute(sql, val)                    
 
                     sql = "UPDATE Datawarehouse.dbo.ERPIntegration SET hash = %s WHERE companyId = %s AND endpoint = %s AND correlationId = %s AND deploy = %s "
@@ -352,8 +352,8 @@ def get_workforcesDim(dbDWH, myCursorDWH, now, dbOrigin, myCursor):
                 myCursorDWH.execute(sql, val)
             else:
                 if str(old_data_hash) != str(data_hash):
-                    sql = "UPDATE Datawarehouse.dbo.WorkforceDim SET code = %s, name = %s WHERE id = %s "
-                    val = (str(workforce['code']), str(workforce['name']), str(workforce['id']))
+                    sql = "UPDATE Datawarehouse.dbo.WorkforceDim SET id = %s, name = %s WHERE id = %s "
+                    val = (str(workforce['id']), str(workforce['name']), str(workforce['id']))
                     myCursorDWH.execute(sql, val)                    
 
                     sql = "UPDATE Datawarehouse.dbo.ERPIntegration SET hash = %s WHERE companyId = %s AND endpoint = %s AND correlationId = %s AND deploy = %s "
