@@ -74,14 +74,14 @@ def get_timeDim(dbDWH, myCursorDWH, now, dbOrigin, myCursor):
     # creating times
     try:
         # Check it times already exists for current year
-        sql = "SELECT COUNT(*) FROM Datawarehouse.dbo.TimeDim WHERE year = YEAR(GETDATE()) -3 " 
+        sql = "SELECT COUNT(*) FROM Datawarehouse.dbo.TimeDim WHERE year = YEAR(GETDATE()) " 
         myCursorDWH.execute(sql)
         result = myCursorDWH.fetchone()[0]
         
         if result == 0:
 
             # Insert all times for current year
-            current_year = datetime.datetime.now().year-3
+            current_year = datetime.datetime.now().year
             first_day = datetime.datetime(current_year, 1, 1) 
             last_day = datetime.datetime(current_year, 12, 31) 
 
@@ -105,59 +105,59 @@ def get_timeDim(dbDWH, myCursorDWH, now, dbOrigin, myCursor):
                 current_day = current_day + datetime.timedelta(days=1)
 
             sql = ""
-            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_Num = '0' + Month_Num WHERE LEN(Month_Num) = 1 AND Year = YEAR(GETDATE())-3 "
+            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_Num = '0' + Month_Num WHERE LEN(Month_Num) = 1 AND Year = YEAR(GETDATE()) "
             myCursorDWH.execute(sql)
 
             sql = ""
-            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Week = '0' + Week WHERE LEN(Week) = 1 AND Year = YEAR(GETDATE())-3 "
+            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Week = '0' + Week WHERE LEN(Week) = 1 AND Year = YEAR(GETDATE()) "
             myCursorDWH.execute(sql)
 
             sql = ""
-            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Gener', Month_ES = 'Enero' WHERE Month_Num = 1 AND Year = YEAR(GETDATE())-3 "
+            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Gener', Month_ES = 'Enero' WHERE Month_Num = 1 AND Year = YEAR(GETDATE()) "
             myCursorDWH.execute(sql)
 
             sql = ""
-            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Febrer', Month_ES = 'Febrero' WHERE Month_Num = 2 AND Year = YEAR(GETDATE())-3 "
+            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Febrer', Month_ES = 'Febrero' WHERE Month_Num = 2 AND Year = YEAR(GETDATE()) "
             myCursorDWH.execute(sql)
 
             sql = ""
-            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Març', Month_ES = 'Marzo' WHERE Month_Num = 3 AND Year = YEAR(GETDATE())-3 "
+            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Març', Month_ES = 'Marzo' WHERE Month_Num = 3 AND Year = YEAR(GETDATE()) "
             myCursorDWH.execute(sql)
 
             sql = ""
-            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Abril', Month_ES = 'Abril' WHERE Month_Num = 4 AND Year = YEAR(GETDATE())-3 "
+            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Abril', Month_ES = 'Abril' WHERE Month_Num = 4 AND Year = YEAR(GETDATE()) "
             myCursorDWH.execute(sql)
 
             sql = ""
-            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Maig', Month_ES = 'Mayo' WHERE Month_Num = 5 AND Year = YEAR(GETDATE())-3 "
+            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Maig', Month_ES = 'Mayo' WHERE Month_Num = 5 AND Year = YEAR(GETDATE()) "
             myCursorDWH.execute(sql)
 
             sql = ""
-            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Juny', Month_ES = 'Junio' WHERE Month_Num = 6 AND Year = YEAR(GETDATE())-3 "
+            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Juny', Month_ES = 'Junio' WHERE Month_Num = 6 AND Year = YEAR(GETDATE()) "
             myCursorDWH.execute(sql)
 
             sql = ""
-            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Juliol', Month_ES = 'Julio' WHERE Month_Num = 7 AND Year = YEAR(GETDATE())-3 "
+            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Juliol', Month_ES = 'Julio' WHERE Month_Num = 7 AND Year = YEAR(GETDATE()) "
             myCursorDWH.execute(sql)
 
             sql = ""
-            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Agost', Month_ES = 'Agosto' WHERE Month_Num = 8 AND Year = YEAR(GETDATE())-3 "
+            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Agost', Month_ES = 'Agosto' WHERE Month_Num = 8 AND Year = YEAR(GETDATE()) "
             myCursorDWH.execute(sql)
 
             sql = ""
-            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Setembre', Month_ES = 'Setiembre' WHERE Month_Num = 9 AND Year = YEAR(GETDATE())-3 "
+            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Setembre', Month_ES = 'Setiembre' WHERE Month_Num = 9 AND Year = YEAR(GETDATE()) "
             myCursorDWH.execute(sql)
 
             sql = ""
-            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Octubre', Month_ES = 'Octubre' WHERE Month_Num = 10 AND Year = YEAR(GETDATE())-3 "
+            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Octubre', Month_ES = 'Octubre' WHERE Month_Num = 10 AND Year = YEAR(GETDATE()) "
             myCursorDWH.execute(sql)
 
             sql = ""
-            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Novembre', Month_ES = 'Noviembre' WHERE Month_Num = 11 AND Year = YEAR(GETDATE())-3 "
+            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Novembre', Month_ES = 'Noviembre' WHERE Month_Num = 11 AND Year = YEAR(GETDATE()) "
             myCursorDWH.execute(sql)
 
             sql = ""
-            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Desembre', Month_ES = 'Diciembre' WHERE Month_Num = 12 AND Year = YEAR(GETDATE())-3 "
+            sql = sql + "UPDATE Datawarehouse.dbo.TimeDim SET Month_CA = 'Desembre', Month_ES = 'Diciembre' WHERE Month_Num = 12 AND Year = YEAR(GETDATE()) "
             myCursorDWH.execute(sql)
 
             # Commit
