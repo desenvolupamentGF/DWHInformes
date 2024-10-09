@@ -45,8 +45,7 @@ DWH_SQLSERVER_DATABASE = os.environ['DWH_SQLSERVER_DATABASE']
 
 # Other constants
 CONN_TIMEOUT = 50
-#DAYS_TO_RECALCULATE = 90 # Darrers tres mesos
-DAYS_TO_RECALCULATE =  1500 # Càrrega inicial
+DAYS_TO_RECALCULATE = 90 # Darrers tres mesos
 
 URL_API = os.environ['URL_API_TEST']
 if ENVIRONMENT == 1:
