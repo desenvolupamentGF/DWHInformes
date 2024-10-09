@@ -45,6 +45,8 @@ DWH_SQLSERVER_DATABASE = os.environ['DWH_SQLSERVER_DATABASE']
 
 # Other constants
 CONN_TIMEOUT = 50
+#DAYS_TO_RECALCULATE = 90 # Darrers tres mesos
+DAYS_TO_RECALCULATE =  1500 # Càrrega inicial
 
 URL_API = os.environ['URL_API_TEST']
 if ENVIRONMENT == 1:
@@ -380,7 +382,7 @@ def get_workerDailyCostsFact(dbDWH, myCursorDWH, now, dbOrigin, myCursor):
         token = calculate_access_token(ENVIRONMENT)
         headers = calculate_json_header(token)        
 
-        strFrom = datetime.date.today() - datetime.timedelta(90) # Darrers tres mesos
+        strFrom = datetime.date.today() - datetime.timedelta(DAYS_TO_RECALCULATE) 
         get_req = requests.get(URL_API + URL_WORKERDAILYCOSTS + "?startDate=" + str(strFrom), headers=headers,
                                verify=False, timeout=CONN_TIMEOUT)
         workerDailyCosts = get_req.json()
