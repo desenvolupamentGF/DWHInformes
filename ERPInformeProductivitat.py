@@ -6,6 +6,14 @@ ENVIRONMENT = 1
 # TEST (0) O PRODUCCIÓ (1) ... BE CAREFUL!!!
 # TEST (0) O PRODUCCIÓ (1) ... BE CAREFUL!!!
 
+# Check this query time to time. No rows show appear because if there are rows, they are duplicates!
+#   select date, workerId, departmentId, workforceId, companyId, hours, count(*) 
+#   from WorkerDailyCostsFact
+#   where hours > 0
+#   group by date, workerId, departmentId, workforceId, companyId, hours
+#   having count(*) > 1
+#   order by date
+
 # for logging purposes
 import logging
 
@@ -384,6 +392,8 @@ def get_workerDailyCostsFact(dbDWH, myCursorDWH, now, dbOrigin, myCursor):
         strFrom = datetime.date.today() - datetime.timedelta(DAYS_TO_RECALCULATE) 
         get_req = requests.get(URL_API + URL_WORKERDAILYCOSTS + "?startDate=" + str(strFrom), headers=headers,
                                verify=False, timeout=CONN_TIMEOUT)
+        #get_req = requests.get(URL_API + URL_WORKERDAILYCOSTS + "?WorkerId=c102cca5-3b26-48f7-d6f6-08dc97981923&startDate=2024-07-23&endDate=2024-07-23", headers=headers,
+        #                       verify=False, timeout=CONN_TIMEOUT)
         workerDailyCosts = get_req.json()
 
         # Insert all workerDailyCosts
