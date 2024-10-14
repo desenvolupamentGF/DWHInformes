@@ -407,26 +407,9 @@ def get_workerDailyCostsFact(dbDWH, myCursorDWH, now, dbOrigin, myCursor):
 
             logging.info('   workerDailyCost is: ' + str(workerDailyCost))
 
-            data_hash = hashlib.sha256(str(workerDailyCost).encode('utf-8')).hexdigest()
-            old_data_hash = get_value_from_database(myCursorDWH, str(workerDailyCost['id']), "WorkerDailyCostsFact")
-
-            if old_data_hash is None:
-                sql = "INSERT INTO Datawarehouse.dbo.WorkerDailyCostsFact (id, date, workerId, departmentId, workforceId, companyId, hours, productiveHours, totalCost) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) "
-                val = (str(workerDailyCost['id']), str(workerDailyCost['date']), str(workerDailyCost['workerId']), str(workerDailyCost['departmentId']), str(workerDailyCost['workforceId']), str(workerDailyCost['companyId']), str(workerDailyCost['hours']), str(workerDailyCost['productiveHours']), str(workerDailyCost['totalCost']))
-                myCursorDWH.execute(sql, val)
-
-                sql = "INSERT INTO Datawarehouse.dbo.ERPIntegration (companyId, endpoint, correlationId, deploy, hash) VALUES (%s, %s, %s, %s, %s) "
-                val = (str(GLAMSUITE_DEFAULT_COMPANY_ID), "WorkerDailyCostsFact", str(workerDailyCost['id']), str(ENVIRONMENT), str(data_hash))
-                myCursorDWH.execute(sql, val)
-            else:
-                if str(old_data_hash) != str(data_hash):
-                    sql = "UPDATE Datawarehouse.dbo.WorkerDailyCostsFact SET date = %s, workerId = %s, departmentId = %s, workforceId = %s, companyId = %s, hours =%s, productiveHours = %s, totalCost = %s WHERE id = %s "
-                    val = (str(workerDailyCost['date']), str(workerDailyCost['workerId']), str(workerDailyCost['departmentId']), str(workerDailyCost['workforceId']), str(workerDailyCost['companyId']), str(workerDailyCost['hours']), str(workerDailyCost['productiveHours']), str(workerDailyCost['totalCost']), str(workerDailyCost['id']))
-                    myCursorDWH.execute(sql, val)                    
-
-                    sql = "UPDATE Datawarehouse.dbo.ERPIntegration SET hash = %s WHERE companyId = %s AND endpoint = %s AND correlationId = %s AND deploy = %s "
-                    val = (str(data_hash), str(GLAMSUITE_DEFAULT_COMPANY_ID), "WorkerDailyCostsFact", str(workerDailyCost['id']), str(ENVIRONMENT))
-                    myCursorDWH.execute(sql, val)                    
+            sql = "INSERT INTO Datawarehouse.dbo.WorkerDailyCostsFact (id, date, workerId, departmentId, workforceId, companyId, hours, productiveHours, totalCost) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) "
+            val = (str(workerDailyCost['id']), str(workerDailyCost['date']), str(workerDailyCost['workerId']), str(workerDailyCost['departmentId']), str(workerDailyCost['workforceId']), str(workerDailyCost['companyId']), str(workerDailyCost['hours']), str(workerDailyCost['productiveHours']), str(workerDailyCost['totalCost']))
+            myCursorDWH.execute(sql, val)
 
             i = i + 1
             if i % 100 == 0:
