@@ -6,14 +6,6 @@ ENVIRONMENT = 1
 # TEST (0) O PRODUCCIÓ (1) ... BE CAREFUL!!!
 # TEST (0) O PRODUCCIÓ (1) ... BE CAREFUL!!!
 
-# Check this query time to time. No rows show appear because if there are rows, they are duplicates!
-#   select date, workerId, departmentId, workforceId, companyId, hours, count(*) 
-#   from WorkerDailyCostsFact
-#   where hours > 0
-#   group by date, workerId, departmentId, workforceId, companyId, hours
-#   having count(*) > 1
-#   order by date
-
 # for logging purposes
 import logging
 
