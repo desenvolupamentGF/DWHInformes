@@ -53,7 +53,7 @@ DWH_SQLSERVER_DATABASE = os.environ['DWH_SQLSERVER_DATABASE']
 
 # Other constants
 CONN_TIMEOUT = 50
-DAYS_TO_RECALCULATE = 90 # Darrers tres mesos
+DAYS_TO_RECALCULATE = 1500 # Recalculo taula de facts
 
 URL_API = os.environ['URL_API_TEST']
 if ENVIRONMENT == 1:
@@ -385,6 +385,11 @@ def get_workerDailyCostsFact(dbDWH, myCursorDWH, now, dbOrigin, myCursor):
 
     # processing worker daily costs from origin ERP (GARCIA FAURA)
     try:
+        # La taula de Facts l'esborro cada dia per tal de tornar-la a crear.
+        sql = "DELETE FROM Datawarehouse.dbo.WorkerDailyCostsFact "
+        myCursorDWH.execute(sql)
+        dbDWH.commit() 
+        
         # Calculate access token and header for the request
         token = calculate_access_token(ENVIRONMENT)
         headers = calculate_json_header(token)        
